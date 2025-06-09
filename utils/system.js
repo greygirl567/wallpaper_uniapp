@@ -1,19 +1,32 @@
-"use strict";
-const common_vendor = require("../common/vendor.js");
-const SYSTEM_INFO = common_vendor.index.getSystemInfoSync();
-const getStatusBarHeight = () => SYSTEM_INFO.statusBarHeight || 15;
-const getTitleBarHeight = () => {
-  if (common_vendor.index.getMenuButtonBoundingClientRect) {
-    let { top, height } = common_vendor.index.getMenuButtonBoundingClientRect();
-    return height + (top - getStatusBarHeight()) * 2;
-  } else {
-    return 40;
-  }
-};
-const getNavBarHeight = () => getStatusBarHeight() + getTitleBarHeight();
-const getLeftIconLeft = () => {
-};
-exports.getLeftIconLeft = getLeftIconLeft;
-exports.getNavBarHeight = getNavBarHeight;
-exports.getStatusBarHeight = getStatusBarHeight;
-exports.getTitleBarHeight = getTitleBarHeight;
+	const SYSTEM_INFO = uni.getSystemInfoSync();
+	export const getStatusBarHeight = ()=> SYSTEM_INFO.statusBarHeight || 15;
+	
+	export const getTitleBarHeight = ()=>{
+		if(uni.getMenuButtonBoundingClientRect){
+			let {top,height} = uni.getMenuButtonBoundingClientRect()
+			// let titleBarHeight=height+(top-getStatusBarHeight())*2
+			return height+(top-getStatusBarHeight())*2
+		}else{
+			return 40;
+		}
+	}
+	
+	export const getNavBarHeight = ()=> getStatusBarHeight()+getTitleBarHeight()
+	
+	export const getLeftIconLeft = ()=>{
+		// if(tt.getCustomButtonBoundingClientRect){
+		// 	let {leftIcon:{left,width}} = tt.getCustomButtonBoundingClientRect()
+		// 	return left+parseInt(width)+5
+		// }else{
+		// 	return 0
+		// }
+		
+		// #ifdef MP-TOUTIAO
+			let {leftIcon:{left,width}} = tt.getCustomButtonBoundingClientRect()
+			return left+parseInt(width)
+		// #endif
+		
+		// #ifdef MP-TOUTIAO
+			return 0
+		// #endif
+	}

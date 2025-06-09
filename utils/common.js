@@ -1,20 +1,33 @@
-"use strict";
-require("../common/vendor.js");
-function compareTimestamp(timestamp) {
-  const currentTime = (/* @__PURE__ */ new Date()).getTime();
-  const timeDiff = currentTime - timestamp;
-  if (timeDiff < 6e4) {
-    return "1分钟内";
-  } else if (timeDiff < 36e5) {
-    return Math.floor(timeDiff / 6e4) + "分钟前";
-  } else if (timeDiff < 864e5) {
-    return Math.floor(timeDiff / 36e5) + "小时前";
-  } else if (timeDiff < 2592e6) {
-    return Math.floor(timeDiff / 864e5) + "天前";
-  } else if (timeDiff < 7776e6) {
-    return Math.floor(timeDiff / 2592e6) + "月前";
-  } else {
-    return "3个月未";
-  }
+export function compareTimestamp(timestamp){
+	const currentTime = new Date().getTime();
+	const timeDiff = currentTime - timestamp;
+	
+	if (timeDiff < 60000){
+		return '1分钟内';
+	}else if(timeDiff < 3600000){
+		return Math.floor(timeDiff / 60000)+'分钟前';
+	}else if(timeDiff < 86400000){
+		return Math.floor(timeDiff / 3600000)+'小时前';
+	}else if(timeDiff < 2592000000){
+		return Math.floor(timeDiff / 86400000)+'天前';
+	}else if(timeDiff < 7776000000){
+		return Math.floor(timeDiff / 2592000000)+'月前';
+	}else{
+		return '3个月未';
+	}
 }
-exports.compareTimestamp = compareTimestamp;
+
+export function gotoHome(){
+	uni.showModal({
+		title:"提示",
+		content:"页面有误，将返回首页",
+		showCancel:false,
+		success:(res)=>{
+			if(res.confirm){
+				uni.reLaunch({
+					url:"/pages/index/index"
+				})
+			}
+		}
+	})
+}
